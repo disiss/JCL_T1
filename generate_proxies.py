@@ -2,14 +2,29 @@ import os
 import random
 import json
 import requests
+import subprocess
+import time
 
 host = requests.get("https://ipinfo.io/ip").text
 password = "Junction"
 
 def create_user(user, password):
-	os.system(f'adduser --gecos "" {user}')
-	os.system(password)
-	os.system(password)
+        os.system(f'adduser --gecos "" --disabled-login {user}')
+        time.sleep(2)
+
+        PASSWD_CMD='/usr/bin/passwd'
+        cmd = [PASSWD_CMD, user]
+
+        p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+        p.stdin.write(f'{password}'.encode())
+        p.stdin.write('\n'.encode())
+
+        p.stdin.write(f'{password}'.encode())
+        p.stdin.write('\n'.encode())
+
+        p.stdin.flush()
+
+        p.wait()
 
 network_interface = input("pls type network_interface: ")
 
@@ -26,14 +41,14 @@ for socks_port in [1080, 1101, 1122, 1212]:
 	config_text = """
 # https://www.inet.no/dante/doc/1.4.x/config/ipv6.html
 internal.protocol: ipv4
-internal: {network_interface} port={port}
+internal: """+network_interface+""" port="""+str(socks_port)+"""
 external.protocol: ipv4
-external: {network_interface}
+external: """+network_interface+"""
 
 socksmethod: username
 
 #user.privileged: root
-user.notprivileged: {user}
+user.notprivileged: """+proxy_user+"""
 
 client pass {
         from: 0.0.0.0/0 to: 0.0.0.0/0
@@ -61,13 +76,9 @@ socks pass {
         log: error
 }
 
-""".format(
-	network_interface=network_interface,
-	port=socks_port,
-	user=proxy_user
-	)
+"""
 
-	with open(f"/etc/danted{proxy_user}.conf", "w+") as config_file:
+	with open(f"/etc/danted{socks_port}.conf", "w+") as config_file:
 		config_file.write(config_text)
 	
 	with open(f"proxies/socks5/{proxy_user}.json", "w+") as config_file:
@@ -79,3 +90,19 @@ socks pass {
 				"password": password
 			}
 		))
+
+a = \
+    """block {
+\tfrom: 0.0.0.0/0 to: 127.0.0.0/8
+\tlog: error
+}
+
+socks block {
+\tfrom: ::/0 to: ::1/128
+\tlog: error
+}
+
+socks pass {
+\tfrom: 0.0.0.0/0 to: 0.0.0.0/0
+\tlog: error
+}"""

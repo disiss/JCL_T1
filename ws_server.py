@@ -34,7 +34,7 @@ class BotWebServer:
 				
 				break
 
-	async def run(self, host="192.168.0.191", port=1101):
+	async def run(self, host="192.168.0.191", port=1124):
 		loop = asyncio.get_running_loop()
 		asyncio.set_event_loop(loop)
 
