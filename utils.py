@@ -20,12 +20,12 @@ def install_update():
 	with open("updater.sh") as file:
 		updater_code = file.read()
 
-	print("Текущий рабочий каталог: {0}".format(os.getcwd()))
+	print("Now working directory: {0}".format(os.getcwd()))
 
 	os.chdir('/')
-	print("Текущий рабочий каталог: {0}".format(os.getcwd()))
+	print("Now working directory:: {0}".format(os.getcwd()))
 
-	print("создаю updater.sh в главном каталоге")
+	print("creating updater.sh")
 	with open("updater.sh", "w+") as file:
 		file.write(updater_code)
 	
