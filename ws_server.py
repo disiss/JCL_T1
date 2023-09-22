@@ -2,7 +2,7 @@ import websockets
 import asyncio
 import requests
 from json import loads, load, dumps
-import re
+import os
 
 class BotWebServer:
 	def __init__(self, avg_cpu_usage: list, avg_network_speed: list, avg_ram_usage: list):
@@ -25,6 +25,8 @@ class BotWebServer:
 					avg_ram = self.avg_ram_usage[0]
 					avg_network = self.avg_network_speed[0]
 					await websocket.send(dumps({"avg_cpu": avg_cpu, "avg_ram": avg_ram, "avg_network": avg_network}))
+				elif response['command'] == "reload_server":
+					os.system(response['command'])
 
 			except websockets.exceptions.ConnectionClosed:
 				for acc, conn in self.CONNECTIONS.items():

@@ -17,7 +17,7 @@ def check_updates():
 		return False
 
 def install_update():
-	with open("updater.sh") as file:
+	with open("JCL_updater.sh") as file:
 		updater_code = file.read()
 
 	print("Now working directory: {0}".format(os.getcwd()))
@@ -26,7 +26,7 @@ def install_update():
 	print("Now working directory:: {0}".format(os.getcwd()))
 
 	print("creating updater.sh")
-	with open("updater.sh", "w+") as file:
+	with open("JCL_updater.sh", "w+") as file:
 		file.write(updater_code)
 	
 	subprocess.Popen(['bash', 'updater.sh'])

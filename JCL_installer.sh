@@ -47,6 +47,8 @@ echo "1101"
 echo "1122"
 echo "1212${NC}"
 
+systemctl disable danted
+
 echo "${RED}Installing JCL...${NC}"
 cd
 git clone https://github.com/disiss/JCL_T1
