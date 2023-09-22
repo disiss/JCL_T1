@@ -28,7 +28,7 @@ systemctl enable JCL_START_UP
 echo "${GREEN}JCL_START_UP Service is created!${NC}"
 
 echo "Activating ufw"
-ufw enable
+ufw --force enable
 echo "${GREEN}Ufw is activated!${NC}"
 
 ufw allow 1124/tcp
