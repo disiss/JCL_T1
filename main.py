@@ -1,8 +1,11 @@
 import psutil
 import asyncio
-import sys
 
+import utils
 import ws_server
+
+if utils.check_updates():
+	utils.install_update()
 
 avg_cpu_usage_list = []
 avg_network_speed_list = []

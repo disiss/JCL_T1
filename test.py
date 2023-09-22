@@ -1,5 +1,3 @@
-user = "prox"
+import subprocess
 
-for x in range(4):
-    user = user + "y"
-    print(user)
+p = subprocess.Popen(['python', 'main.py'])
