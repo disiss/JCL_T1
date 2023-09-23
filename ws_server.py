@@ -1,8 +1,11 @@
 import websockets
 import asyncio
 import requests
+import random
 from json import loads, load, dumps
 import os
+
+import configshub
 
 class BotWebServer:
 	def __init__(self, avg_cpu_usage: list, avg_network_speed: list, avg_ram_usage: list):
@@ -28,17 +31,39 @@ class BotWebServer:
 				
 				elif response['command'] == "get_proxy_users":
 					proxy_users = []
-					for proxy_user in os.listdir("proxies/socks5/"):
-						with open(f"proxies/socks5/{proxy_user}") as file:
+					for proxy_user in os.listdir("proxies_config/socks5/"):
+						with open(f"proxies_config/socks5/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 					
-					for proxy_user in os.listdir("proxies/http/"):
-						with open(f"proxies/http/{proxy_user}") as file:
+					for proxy_user in os.listdir("proxies_config/http/"):
+						with open(f"proxies_config/http/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 						
 					await websocket.send(dumps(str(proxy_users)))
+				
+				elif response['command'] == "purchased":
+					try:
+						is_shared = response['is_shared']
+						proxy_method = response['proxy_method']
+						proxy_config_filename = response['config_filrname']
+
+						new_config_data = response['new_config_data']
+
+						timestamp_end_time = response['timestamp_end_time']
+
+						config = configshub.ProxyAuthUsersConfig(f"proxies_config/{proxy_method}/{proxy_config_filename}")
+						config.update_config()
+
+						with open(f"proxies_config/{proxy_method}/{proxy_config_filename}") as file:
+							file
+
+					except Exception as err:
+						error_id = random.uniform(0.00001, 1.0)
+						with open("soft_logs\\error.txt", "a+") as file:
+							file.write(error_id+" | "+err)
+						
 
 			except websockets.exceptions.ConnectionClosed:
 				for acc, conn in self.CONNECTIONS.items():

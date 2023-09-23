@@ -31,10 +31,10 @@ network_interface = input("pls type network_interface: ")
 user = "prox"
 for socks_port in [1080, 1101, 1122, 1212]:
 	user = user + "y"
-	proxy_user = user + str(random.randint(0, 1111))
+	proxy_login = user + str(random.randint(0, 1111))
 
 	create_user(
-		user=proxy_user,
+		user=proxy_login,
 		password=password
 	)
 
@@ -48,7 +48,7 @@ external: """+network_interface+"""
 socksmethod: username
 
 #user.privileged: root
-user.notprivileged: """+proxy_user+"""
+user.notprivileged: """+proxy_login+"""
 
 client pass {
 	from: 0.0.0.0/0 to: 0.0.0.0/0
@@ -81,14 +81,15 @@ socks pass {
 	with open(f"/etc/danted{socks_port}.conf", "w+") as config_file:
 		config_file.write(config_text)
 	
-	with open(f"proxies/socks5/{proxy_user}.json", "w+") as config_file:
+	with open(f"proxies_config/socks5/{proxy_login}.json", "w+") as config_file:
 		config_file.write(json.dumps(
 			{	
 				"busy": False,
 				"host": host,
 				"port": socks_port,
-				"user": proxy_user,
+				"login": proxy_login,
 				"password": password,
-				"danted_config_file": f"danted{socks_port}.conf"
+				"danted_config_file": f"danted{socks_port}.conf",
+				"timestamp_end_time": None
 			}
 		))

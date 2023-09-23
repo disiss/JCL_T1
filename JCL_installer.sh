@@ -59,11 +59,14 @@ echo "${RED}Installing requirements...${NC}"
 pip3 install -r requirements.txt
 echo "${GREEN}Requirements in installed!${NC}"
 
-mkdir proxies
-cd proxies
+mkdir proxies_config
+cd proxies_config
 
 mkdir socks5
 mkdir http
+
+cd
+cd JCL_T1
 
 echo "${GREEN}JCL is succ installed!${NC}"
 
