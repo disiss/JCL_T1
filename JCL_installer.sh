@@ -57,8 +57,15 @@ cd JCL_T1
 
 echo "${RED}Installing requirements...${NC}"
 pip3 install -r requirements.txt
-echo "${GREEN}Requirements in installed!"
-echo "JCL is succ installed!${NC}"
+echo "${GREEN}Requirements in installed!${NC}"
+
+mkdir proxies
+cd proxies
+
+mkdir socks5
+mkdir http
+
+echo "${GREEN}JCL is succ installed!${NC}"
 
 # echo "Installing requirements..."
 # python3 generate_proxies.py

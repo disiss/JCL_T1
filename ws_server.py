@@ -32,12 +32,13 @@ class BotWebServer:
 						with open(f"proxies/socks5/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
-						
+					
+					for proxy_user in os.listdir("proxies/http/"):
 						with open(f"proxies/http/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 						
-						await websocket.send(dumps(str(proxy_users)))
+					await websocket.send(dumps(str(proxy_users)))
 
 			except websockets.exceptions.ConnectionClosed:
 				for acc, conn in self.CONNECTIONS.items():
