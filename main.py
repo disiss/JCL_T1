@@ -89,6 +89,7 @@ async def avg_ram_usage():
 		avg_ram_usage_list.append(avg_ram_usage)
 
 async def test():
+	
 	while True:
 		await asyncio.sleep(15)
 		print("its ok")
