@@ -9,22 +9,22 @@ host = requests.get("https://ipinfo.io/ip").text
 password = "Junction"
 
 def create_user(user, password):
-        os.system(f'adduser --gecos "" --disabled-login {user}')
-        time.sleep(2)
+	os.system(f'adduser --gecos "" --disabled-login {user}')
+	time.sleep(2)
 
-        PASSWD_CMD='/usr/bin/passwd'
-        cmd = [PASSWD_CMD, user]
+	PASSWD_CMD='/usr/bin/passwd'
+	cmd = [PASSWD_CMD, user]
 
-        p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-        p.stdin.write(f'{password}'.encode())
-        p.stdin.write('\n'.encode())
+	p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+	p.stdin.write(f'{password}'.encode())
+	p.stdin.write('\n'.encode())
 
-        p.stdin.write(f'{password}'.encode())
-        p.stdin.write('\n'.encode())
+	p.stdin.write(f'{password}'.encode())
+	p.stdin.write('\n'.encode())
 
-        p.stdin.flush()
+	p.stdin.flush()
 
-        p.wait()
+	p.wait()
 
 network_interface = input("pls type network_interface: ")
 
@@ -51,13 +51,13 @@ socksmethod: username
 user.notprivileged: """+proxy_user+"""
 
 client pass {
-        from: 0.0.0.0/0 to: 0.0.0.0/0
-        log: error
+	from: 0.0.0.0/0 to: 0.0.0.0/0
+	log: error
 }
 
 client pass {
-        from: ::/0 to: ::/0
-        log: error
+	from: ::/0 to: ::/0
+	log: error
 }
 
 # deny proxied to loopback
@@ -72,8 +72,8 @@ socks block {
 }
 
 socks pass {
-        from: 0.0.0.0/0 to: 0.0.0.0/0
-        log: error
+	from: 0.0.0.0/0 to: 0.0.0.0/0
+	log: error
 }
 
 """
@@ -83,26 +83,12 @@ socks pass {
 	
 	with open(f"proxies/socks5/{proxy_user}.json", "w+") as config_file:
 		config_file.write(json.dumps(
-			{
+			{	
+				"busy": False,
 				"host": host,
 				"port": socks_port,
 				"user": proxy_user,
-				"password": password
+				"password": password,
+				"danted_config_file": f"danted{socks_port}.conf"
 			}
 		))
-
-a = \
-    """block {
-\tfrom: 0.0.0.0/0 to: 127.0.0.0/8
-\tlog: error
-}
-
-socks block {
-\tfrom: ::/0 to: ::1/128
-\tlog: error
-}
-
-socks pass {
-\tfrom: 0.0.0.0/0 to: 0.0.0.0/0
-\tlog: error
-}"""

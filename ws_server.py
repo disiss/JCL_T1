@@ -25,8 +25,19 @@ class BotWebServer:
 					avg_ram = self.avg_ram_usage[0]
 					avg_network = self.avg_network_speed[0]
 					await websocket.send(dumps({"avg_cpu": avg_cpu, "avg_ram": avg_ram, "avg_network": avg_network}))
-				elif response['command'] == "reload_server":
-					os.system(response['command'])
+				
+				elif response['command'] == "get_proxy_users":
+					proxy_users = []
+					for proxy_user in os.listdir("proxies/socks5/"):
+						with open(f"proxies/socks5/{proxy_user}") as file:
+							proxy_user_info = loads(file.read())
+							proxy_users.append(proxy_user_info)
+						
+						with open(f"proxies/http/{proxy_user}") as file:
+							proxy_user_info = loads(file.read())
+							proxy_users.append(proxy_user_info)
+						
+						await websocket.send(dumps(str(proxy_users)))
 
 			except websockets.exceptions.ConnectionClosed:
 				for acc, conn in self.CONNECTIONS.items():
