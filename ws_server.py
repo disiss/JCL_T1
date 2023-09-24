@@ -40,8 +40,9 @@ class BotWebServer:
 						with open(f"proxies_config/http/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
-						
-					await websocket.send(dumps(str(proxy_users)))
+					
+					print("proxy_users", proxy_users)
+					await websocket.send(dumps(proxy_users))
 				
 				elif response['command'] == "purchased":
 					try:

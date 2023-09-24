@@ -32,9 +32,11 @@ ufw --force enable
 echo "${GREEN}Ufw is activated!${NC}"
 
 ufw allow 1124/tcp
+ufw allow 3000/tcp
 
-echo "${GREEN}Opened 1 server port:${NC}"
+echo "${GREEN}Opened 2 server ports:${NC}"
 echo "${RED}1124${NC}"
+echo "${RED}3000${NC}"
 
 ufw allow 1080/tcp
 ufw allow 1101/tcp
@@ -58,6 +60,21 @@ cd JCL_T1
 echo "${RED}Installing requirements...${NC}"
 pip3 install -r requirements.txt
 echo "${GREEN}Requirements in installed!${NC}"
+
+npm install -g pm2
+
+cd http_proxy_server
+pm2 start main.js
+
+cd
+cd api_server
+pm2 start main.js
+
+cd
+cd JCL_T1
+
+pm2 save
+pm2 startup
 
 mkdir proxies_config
 cd proxies_config
