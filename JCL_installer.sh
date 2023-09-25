@@ -31,6 +31,8 @@ echo "Activating ufw"
 ufw --force enable
 echo "${GREEN}Ufw is activated!${NC}"
 
+ufw allow 22
+
 ufw allow 1124/tcp
 ufw allow 3000/tcp
 
