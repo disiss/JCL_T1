@@ -7,6 +7,12 @@ import os
 
 import configshub
 
+def is_file(filename: str):
+	if len(filename.split(".")) >= 2:
+		return True
+	else:
+		return False
+
 class BotWebServer:
 	def __init__(self, avg_cpu_usage: list, avg_network_speed: list, avg_ram_usage: list):
 		self.CONNECTIONS = {}
@@ -31,7 +37,8 @@ class BotWebServer:
 				
 				elif response['command'] == "get_socks5_proxy_users":
 					proxy_users = []
-					for proxy_user in os.listdir("proxies_config/socks5/"):
+					files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
+					for proxy_user in files:
 						with open(f"proxies_config/socks5/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
@@ -41,8 +48,9 @@ class BotWebServer:
 				
 				elif response['command'] == "get_http_proxy_users":
 					proxy_users = []
-					for proxy_user in os.listdir("proxies_config/http/"):
-						with open(f"proxies_config/http/{proxy_user}") as file:
+					files = [f for f in os.listdir("http_proxy_server/users") if is_file(f)]
+					for proxy_user in files:
+						with open(f"http_proxy_server/users/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 					
