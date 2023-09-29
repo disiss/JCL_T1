@@ -26,7 +26,7 @@ class Socks5:
 		config_file = configshub.ProxyAuthUsersConfig(f"proxies_config/socks5/{self.user}.json")
 		config = config_file.get_config_info()
 
-		os.system(f"danted -D -p /root/JCL_T1/proxies_config/socks5/{self.user}.pid -f /etc/{config['danted_config_file']}")
+		os.system(f"danted -D -p /root/JCL_T1/proxies_config/socks5/pids/{self.user}.pid -f /etc/{config['danted_config_file']}")
 
 class HTTP:
 	def __init__(self, config_filename: str) -> None:

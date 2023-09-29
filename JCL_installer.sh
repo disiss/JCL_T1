@@ -85,6 +85,13 @@ mkdir proxies_config
 cd proxies_config
 
 mkdir socks5
+cd socks5
+mkdir pids
+
+cd
+cd JCL_T1
+cd proxies_config
+
 mkdir http
 
 cd
