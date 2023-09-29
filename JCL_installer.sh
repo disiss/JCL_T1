@@ -29,7 +29,9 @@ apt-get update
 
 sleep 2
 
-apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs npm  sysstat net-tools
+apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs sysstat net-tools
+sudo apt update --fix-missing
+apt install -y npm
 
 echo "Creating JCL_START_UP Service"
 autostartup /etc/systemd/system/JCL_START_UP.service
