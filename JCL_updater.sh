@@ -11,4 +11,7 @@ git clone https://github.com/disiss/JCL_T1.git
 
 echo "Starting JCL_T1..."
 cd JCL_T1
+
+bash JCL_installer.sh
+
 bash JCL_start_after_update.sh

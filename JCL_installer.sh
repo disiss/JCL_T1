@@ -90,7 +90,7 @@ mkdir http
 cd
 cd JCL_T1
 
-echo "${GREEN}JCL is succ installed!${NC}"
-
-# echo "Installing requirements..."
+# echo "${GREEN}Start Generating Proxies!${NC}"
 # python3 generate_proxies.py
+
+echo "${GREEN}JCL is succ installed!${NC}"

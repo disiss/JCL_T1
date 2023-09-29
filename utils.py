@@ -29,7 +29,7 @@ def install_update():
 	with open("JCL_updater.sh", "w+") as file:
 		file.write(updater_code)
 	
-	subprocess.Popen(['bash', 'updater.sh'])
+	subprocess.Popen(['bash', 'JCL_updater.sh'])
 	raise Exception("Downloading new version...")
 
 def start_all_proxies():

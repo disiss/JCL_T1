@@ -126,10 +126,10 @@ for filename in os.listdir("proxies_config/socks5"):
 	with open(f"proxies_config/socks5/{filename}") as config_file:
 		result = json.loads(config_file.read())
 
-		print(f"started: {result['host']}-{result['login']}-{result['password']}-{result['danted_config_file']}")
+	print(f"started: {result['host']}-{result['login']}-{result['password']}-{result['danted_config_file']}")
 		
-		socks5 = proxyhub.Socks5(result['login'])
-		socks5.start_proxy()
+	socks5 = proxyhub.Socks5(result['login'])
+	socks5.start_proxy()
 
 loop = asyncio.get_event_loop()
 
