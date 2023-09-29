@@ -98,27 +98,38 @@ async def test():
 	while True:
 		await asyncio.sleep(60)
 		
-		for filename in os.listdir("/proxies_config/socks5"):
-			with open(f"/proxies_config/socks5{filename}") as config_file:
+		for filename in os.listdir("proxies_config/socks5"):
+			with open(f"proxies_config/socks5/{filename}") as config_file:
 				result = json.loads(config_file.read())
-				dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
 
-				if datetime.now() >= dt_object:
-					print(f"прокси: socks5\\{result['login']} закончился, меняю пароль)")
+				if result['timestamp_end_time'] != None:
+					dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
+					if datetime.now() >= dt_object:
+						print(f"прокси: socks5\\{result['login']} закончился, меняю пароль)")
 
-					proxy = proxyhub.Socks5(user=result['login'])
-					proxy.change_password(password="Junction"+random.choice(1, 100000))
+						proxy = proxyhub.Socks5(user=result['login'])
+						proxy.change_password(password="Junction"+random.choice(1, 100000))
 			
-		for filename in os.listdir("/proxies_config/http"):
-			with open(f"/proxies_config/http{filename}") as config_file:
+		for filename in os.listdir("http_proxy_server/users"):
+			with open(f"http_proxy_server/users/{filename}") as config_file:
 				result = json.loads(config_file.read())
-				dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
 
-				if datetime.now() >= dt_object:
-					print(f"прокси: http\\{result['login']} закончился, меняю пароль)")
+				if result['timestamp_end_time'] != None:
+					dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
+					if datetime.now() >= dt_object:
+						print(f"прокси: http\\{result['login']} закончился, меняю пароль)")
 
-					proxy = proxyhub.HTTP(config_filename=f"/proxies_config/http{filename}")
-					proxy.change_password(password="Junction"+random.choice(1, 100000))
+						proxy = proxyhub.HTTP(config_filename=f"http_proxy_server/users/{filename}")
+						proxy.change_password(password="Junction"+random.choice(1, 100000))
+
+for filename in os.listdir("proxies_config/socks5"):
+	with open(f"proxies_config/socks5/{filename}") as config_file:
+		result = json.loads(config_file.read())
+
+		print(f"started: {result['host']}-{result['login']}-{result['password']}-{result['danted_config_file']}")
+		
+		socks5 = proxyhub.Socks5(result['login'])
+		socks5.start_proxy()
 
 loop = asyncio.get_event_loop()
 

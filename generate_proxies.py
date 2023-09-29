@@ -117,7 +117,7 @@ if __name__ == "__main__":
 	host = requests.get("https://ipinfo.io/ip").text
 
 	network_interface = sys.argv[1]
-	generating = sys.argv[1]
+	generating = sys.argv[2]
 
 	if generating == "socks5":
 		generate_socks5(network_interface=network_interface, host=host)

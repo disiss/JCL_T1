@@ -1,4 +1,6 @@
 import subprocess
+import os
+
 import configshub
 
 class Socks5:
@@ -19,6 +21,12 @@ class Socks5:
 		p.stdin.flush()
 
 		p.wait()
+	
+	def start_proxy(self):
+		config_file = configshub.ProxyAuthUsersConfig(f"proxies_config/socks5/{self.user}.json")
+		config = config_file.get_config_info()
+
+		os.system(f"danted -D -p /root/JCL_T1/proxies_config/socks5/{self.user}.pid -f /etc/{config['danted_config_file']}")
 
 class HTTP:
 	def __init__(self, config_filename: str) -> None:
