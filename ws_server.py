@@ -29,37 +29,45 @@ class BotWebServer:
 					avg_network = self.avg_network_speed[0]
 					await websocket.send(dumps({"avg_cpu": avg_cpu, "avg_ram": avg_ram, "avg_network": avg_network}))
 				
-				elif response['command'] == "get_proxy_users":
+				elif response['command'] == "get_socks5_proxy_users":
 					proxy_users = []
 					for proxy_user in os.listdir("proxies_config/socks5/"):
 						with open(f"proxies_config/socks5/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 					
+					print("socks5_proxy_users", proxy_users)
+					await websocket.send(dumps(proxy_users))
+				
+				elif response['command'] == "get_http_proxy_users":
+					proxy_users = []
 					for proxy_user in os.listdir("proxies_config/http/"):
 						with open(f"proxies_config/http/{proxy_user}") as file:
 							proxy_user_info = loads(file.read())
 							proxy_users.append(proxy_user_info)
 					
-					print("proxy_users", proxy_users)
+					print("http_proxy_users", proxy_users)
 					await websocket.send(dumps(proxy_users))
+
 				
 				elif response['command'] == "purchased":
 					try:
-						is_shared = response['is_shared']
 						proxy_method = response['proxy_method']
-						proxy_config_filename = response['config_filrname']
+						proxy_config_filename = response['config_filename']
 
 						new_config_data = response['new_config_data']
 
-						timestamp_end_time = response['timestamp_end_time']
-
-						config = configshub.ProxyAuthUsersConfig(f"proxies_config/{proxy_method}/{proxy_config_filename}")
-						config.update_config()
-
-						with open(f"proxies_config/{proxy_method}/{proxy_config_filename}") as file:
-							file
-
+						if proxy_method == "socks5":
+							config = configshub.ProxyAuthUsersConfig(f"/proxies_config/socks5/{proxy_config_filename}")
+							config.update_config(
+								new_info=new_config_data
+							)
+						elif proxy_method == "http":
+							config = configshub.ProxyAuthUsersConfig(f"/http_proxy_server/users/{proxy_config_filename}")
+							config.update_config(
+								new_info=new_config_data
+							)
+					
 					except Exception as err:
 						error_id = random.uniform(0.00001, 1.0)
 						with open("soft_logs\\error.txt", "a+") as file:

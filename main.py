@@ -1,8 +1,14 @@
 import psutil
 import asyncio
+import os
+import json
+import random
 
 import utils
 import ws_server
+import proxyhub
+
+from datetime import datetime
 
 if utils.check_updates():
 	utils.install_update()
@@ -89,10 +95,30 @@ async def avg_ram_usage():
 		avg_ram_usage_list.append(avg_ram_usage)
 
 async def test():
-	
 	while True:
-		await asyncio.sleep(15)
-		print("its ok")
+		await asyncio.sleep(60)
+		
+		for filename in os.listdir("/proxies_config/socks5"):
+			with open(f"/proxies_config/socks5{filename}") as config_file:
+				result = json.loads(config_file.read())
+				dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
+
+				if datetime.now() >= dt_object:
+					print(f"прокси: socks5\\{result['login']} закончился, меняю пароль)")
+
+					proxy = proxyhub.Socks5(user=result['login'])
+					proxy.change_password(password="Junction"+random.choice(1, 100000))
+			
+		for filename in os.listdir("/proxies_config/http"):
+			with open(f"/proxies_config/http{filename}") as config_file:
+				result = json.loads(config_file.read())
+				dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
+
+				if datetime.now() >= dt_object:
+					print(f"прокси: http\\{result['login']} закончился, меняю пароль)")
+
+					proxy = proxyhub.HTTP(config_filename=f"/proxies_config/http{filename}")
+					proxy.change_password(password="Junction"+random.choice(1, 100000))
 
 loop = asyncio.get_event_loop()
 

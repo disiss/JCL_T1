@@ -12,7 +12,10 @@ cat > "$1" <<EOF
 Description=JCL START UP SERVICE
 
 [Service]
-ExecStart=/root/JCL_T1/startup.sh start
+Type=simple
+WorkingDirectory=/root/JCL_T1
+ExecStart=/usr/bin/python3 /root/JCL_T1/main.py
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
@@ -70,7 +73,7 @@ pm2 start main.js
 
 cd
 cd api_server
-pm2 start main.js
+pm2 start app.js
 
 cd
 cd JCL_T1
