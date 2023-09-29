@@ -95,7 +95,7 @@ async def avg_ram_usage():
 		avg_ram_usage_list.append(avg_ram_usage)
 
 def is_file(filename: str):
-	if len(filename.strip(".")) >= 2:
+	if len(filename.split(".")) >= 2:
 		return True
 	else:
 		return False

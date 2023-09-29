@@ -1,4 +1,5 @@
 {
     "login": "user",
-    "password": "Junction"
+    "password": "Junction",
+    "timestamp_end_time": null
 }
