@@ -25,6 +25,10 @@ EOF
 apt update
 apt upgrade
 
+apt-get update
+
+sleep(2)
+
 apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs npm  sysstat net-tools
 
 echo "Creating JCL_START_UP Service"
