@@ -23,7 +23,9 @@ EOF
 }
 
 apt update
-apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs sysstat net-tools
+apt upgrade
+
+apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs npm  sysstat net-tools
 
 echo "Creating JCL_START_UP Service"
 autostartup /etc/systemd/system/JCL_START_UP.service
