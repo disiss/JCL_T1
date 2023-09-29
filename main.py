@@ -94,11 +94,17 @@ async def avg_ram_usage():
 		
 		avg_ram_usage_list.append(avg_ram_usage)
 
+def is_file(filename: str):
+	if len(filename.strip(".")) >= 2:
+		return True
+	else:
+		return False
+
 async def test():
 	while True:
 		await asyncio.sleep(60)
 		
-		files = [f for f in os.listdir("proxies_config/socks5") if os.path.isfile(f)]
+		files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
 		for filename in files:
 			with open(f"proxies_config/socks5/{filename}") as config_file:
 				result = json.loads(config_file.read())
@@ -111,7 +117,7 @@ async def test():
 						proxy = proxyhub.Socks5(user=result['login'])
 						proxy.change_password(password="Junction"+random.choice(1, 100000))
 			
-		files = [f for f in os.listdir("http_proxy_server/users") if os.path.isfile(f)]
+		files = [f for f in os.listdir("http_proxy_server/users") if is_file(f)]
 		for filename in files:
 			with open(f"http_proxy_server/users/{filename}") as config_file:
 				result = json.loads(config_file.read())
@@ -124,7 +130,7 @@ async def test():
 						proxy = proxyhub.HTTP(config_filename=f"http_proxy_server/users/{filename}")
 						proxy.change_password(password="Junction"+random.choice(1, 100000))
 
-files = [f for f in os.listdir("proxies_config/socks5") if os.path.isfile(f)]
+files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
 for filename in files:
 	with open(f"proxies_config/socks5/{filename}") as config_file:
 		result = json.loads(config_file.read())

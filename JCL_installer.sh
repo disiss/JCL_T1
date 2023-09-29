@@ -25,10 +25,6 @@ EOF
 apt update
 apt upgrade
 
-apt-get update
-
-sleep 2
-
 apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs sysstat net-tools
 sudo apt update --fix-missing
 apt install -y npm
