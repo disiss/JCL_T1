@@ -97,11 +97,11 @@ def generate_http(count=4):
 	user = "prox"
 	password = "Junction"
 
-	for x in count:
+	for x in range(count):
 		user = user + "y"
 		proxy_login = user + str(random.randint(0, 1111))
 	
-		with open(f"/http_proxy_server/users/{proxy_login}.json") as config_file:
+		with open(f"http_proxy_server/users/{proxy_login}.json", "w") as config_file:
 			config_file.write(json.dumps(
 				{	
 					"busy": False,
