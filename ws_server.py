@@ -60,18 +60,18 @@ class BotWebServer:
 				
 				elif response['command'] == "purchased":
 					try:
-						proxy_method = response['proxy_method']
-						proxy_config_filename = response['config_filename']
+						proxy_type = response['proxy_type']
+						proxy_login = response['proxy_login']
 
 						new_config_data = response['new_config_data']
 
-						if proxy_method == "socks5":
-							config = configshub.ProxyAuthUsersConfig(f"/proxies_config/socks5/{proxy_config_filename}")
+						if proxy_type == "socks5":
+							config = configshub.ProxyAuthUsersConfig(f"/proxies_config/socks5/{proxy_login}.json")
 							config.update_config(
 								new_info=new_config_data
 							)
-						elif proxy_method == "http":
-							config = configshub.ProxyAuthUsersConfig(f"/http_proxy_server/users/{proxy_config_filename}")
+						elif proxy_type == "http":
+							config = configshub.ProxyAuthUsersConfig(f"/http_proxy_server/users/{proxy_login}.json")
 							config.update_config(
 								new_info=new_config_data
 							)
