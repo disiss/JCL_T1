@@ -30,24 +30,23 @@ function check_auth(login = String, password = String) {
 
 	// console.log(fileList)
 
+	let status = false
+
 	for (const file of fileList) {
-		fs.readFile(`users/${file}`, "utf8", (err, jsonString) => {
-			if (err) {
-				console.log("File read failed:", err)
-				return false
-			}
-			const auth_conf = JSON.parse(jsonString)
+		const result = fs.readFileSync(`users/${file}`, { encoding: "utf-8" })
+
+		const auth_conf = JSON.parse(result)
 			
-			if (auth_conf.login === login && auth_conf.password === password) {
-				// console.log("auth ok!")
-				return true
-			} else {
-				// console.log("auth not ok!")
-				return
-			}
-		});
+		if (auth_conf.login === login && auth_conf.password === password) {
+			console.log("auth ok!")
+			status = true
+			break
+		} else {
+			console.log("auth not ok!")
+			return;
+		}
 	}
-	return true
+	return status
 }
 
 const requestHandler = (req, res) => { // discard all request to proxy server except HTTP/1.1 CONNECT method
@@ -66,7 +65,7 @@ const listener = server.listen(port, hostname, (err) => {
 })
 
 server.on('connect', (req, clientSocket, head) => { // listen only for HTTP/1.1 CONNECT method
-	console.log(clientSocket.remoteAddress, clientSocket.remotePort, req.method, req.url)
+	// console.log(clientSocket.remoteAddress, clientSocket.remotePort, req.method, req.url)
 
 	if (!req.headers['proxy-authorization']) { // here you can add check for any username/password, I just check that this header must exist!
 		clientSocket.write([
@@ -81,7 +80,7 @@ server.on('connect', (req, clientSocket, head) => { // listen only for HTTP/1.1 
 		login = auth_info[0]
 		password = auth_info[1]
 
-		console.log(check_auth(login=login, password=password))
+		console.log("test", check_auth(login=login, password=password))
 
 		if (check_auth(login=login, password=password) === false) {
 			clientSocket.write([
