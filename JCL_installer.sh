@@ -77,13 +77,13 @@ pm2 start main.js
 
 cd
 cd api_server
-pm2 start app.js
+# pm2 start app.js
 
 cd
 cd JCL_T1
 
-pm2 save
-pm2 startup
+# pm2 save
+# pm2 startup
 
 mkdir proxies_config
 cd proxies_config
