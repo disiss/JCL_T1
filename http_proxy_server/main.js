@@ -36,14 +36,17 @@ function check_auth(login = String, password = String) {
 		const result = fs.readFileSync(`users/${file}`, { encoding: "utf-8" })
 
 		const auth_conf = JSON.parse(result)
-			
+		console.log("auth", auth_conf.login, auth_conf.password)	
+		
+		console.log("real", login, password)
+
+
 		if (auth_conf.login === login && auth_conf.password === password) {
 			console.log("auth ok!")
 			status = true
 			break
 		} else {
 			console.log("auth not ok!")
-			return;
 		}
 	}
 	return status
