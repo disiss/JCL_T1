@@ -42,6 +42,7 @@ ufw allow 22
 
 ufw allow 1124/tcp
 ufw allow 3000/tcp
+ufw allow 1991
 
 echo "${GREEN}Opened 2 server ports:${NC}"
 echo "${RED}1124${NC}"
