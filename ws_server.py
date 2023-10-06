@@ -66,12 +66,12 @@ class BotWebServer:
 						new_config_data = response['new_config_data']
 
 						if proxy_type == "socks5":
-							config = configshub.ProxyAuthUsersConfig(f"/proxies_config/socks5/{proxy_login}.json")
+							config = configshub.ProxyAuthUsersConfig(f"proxies_config/socks5/{proxy_login}.json")
 							config.update_config(
 								new_info=new_config_data
 							)
 						elif proxy_type == "http":
-							config = configshub.ProxyAuthUsersConfig(f"/http_proxy_server/users/{proxy_login}.json")
+							config = configshub.ProxyAuthUsersConfig(f"http_proxy_server/users/{proxy_login}.json")
 							config.update_config(
 								new_info=new_config_data
 							)
