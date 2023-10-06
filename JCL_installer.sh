@@ -74,7 +74,7 @@ echo "${GREEN}Requirements in installed!${NC}"
 npm install -g pm2
 
 cd http_proxy_server
-# pm2 start main.js
+pm2 start main.js
 
 cd
 cd api_server
@@ -83,8 +83,8 @@ cd api_server
 cd
 cd JCL_T1
 
-# pm2 save
-# pm2 startup
+pm2 save
+pm2 startup
 
 mkdir proxies_config
 cd proxies_config
