@@ -1,3 +1,6 @@
-import subprocess
+old_info = {"A": "AA", "B": "BB"}
+new_info = {"B": "CC"}
 
-p = subprocess.Popen(['python', 'main.py'])
+curr_info = old_info.update(new_info)
+
+print(old_info)

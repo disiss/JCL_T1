@@ -2,8 +2,10 @@ import websockets
 import asyncio
 import requests
 import random
-from json import loads, load, dumps
 import os
+
+from json import loads, load, dumps
+from datetime import datetime, timedelta
 
 import configshub
 
@@ -75,12 +77,41 @@ class BotWebServer:
 							config.update_config(
 								new_info=new_config_data
 							)
-					
 					except Exception as err:
 						error_id = random.uniform(0.00001, 1.0)
 						with open("soft_logs\\error.txt", "a+") as file:
 							file.write(error_id+" | "+err)
 						
+				elif response['command'] == "add_timestamp_end_time":
+					proxy_type = response['proxy_type']
+					proxy_login = response['proxy_login']
+					seconds = response['add_time']['seconds']
+
+					if proxy_type == "socks5":
+						config = configshub.ProxyAuthUsersConfig(f"proxies_config/socks5/{proxy_login}.json")
+						old_config_info = config.get_config_info()
+
+						new_end_time = datetime.fromtimestamp(old_config_info['timestamp_end_time'])+timedelta(seconds=seconds)
+						
+						new_config_info = old_config_info.copy()
+						new_config_info.update({'timestamp_end_time': new_end_time.timestamp()})
+
+						config.update_config(
+							new_info=new_config_info
+						)
+
+					elif proxy_type == "http":
+						config = configshub.ProxyAuthUsersConfig(f"http_proxy_server/users/{proxy_login}.json")
+						old_config_info = config.get_config_info()
+
+						new_end_time = datetime.fromtimestamp(old_config_info['timestamp_end_time'])+timedelta(seconds=seconds)
+						
+						new_config_info = old_config_info.copy()
+						new_config_info.update({'timestamp_end_time': new_end_time.timestamp()})
+
+						config.update_config(
+							new_info=new_config_info
+						)
 
 			except websockets.exceptions.ConnectionClosed:
 				for acc, conn in self.CONNECTIONS.items():

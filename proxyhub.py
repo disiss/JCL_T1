@@ -35,5 +35,5 @@ class HTTP:
 	def change_password(self, password: str):
 		config_hub = configshub.ProxyAuthUsersConfig(self.config_filename)
 		config_hub.update_config(
-			new_info={"password": password}
+			new_info={"busy": False, "password": password}
 		)

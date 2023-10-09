@@ -7,6 +7,7 @@ import random
 import utils
 import ws_server
 import proxyhub
+import configshub
 
 from datetime import datetime
 
@@ -114,9 +115,14 @@ async def test():
 					if datetime.now() >= dt_object:
 						print(f"прокси: socks5\\{result['login']} закончился, меняю пароль)")
 
+						new_password = f"Junction{random.randint(1, 100000)}"
+
 						proxy = proxyhub.Socks5(user=result['login'])
-						proxy.change_password(password="Junction"+random.choice(1, 100000))
+						proxy.change_password(password=new_password)
 			
+						config = configshub.ProxyAuthUsersConfig(f'proxies_config/socks5/{filename}')
+						config.update_config(new_info={"busy": False, "password": new_password, "timestamp_end_time": None})
+
 		files = [f for f in os.listdir("http_proxy_server/users") if is_file(f)]
 		for filename in files:
 			with open(f"http_proxy_server/users/{filename}") as config_file:
@@ -128,7 +134,10 @@ async def test():
 						print(f"прокси: http\\{result['login']} закончился, меняю пароль)")
 
 						proxy = proxyhub.HTTP(config_filename=f"http_proxy_server/users/{filename}")
-						proxy.change_password(password="Junction"+random.choice(1, 100000))
+						proxy.change_password(password=f"Junction{random.randint(1, 100000)}")
+
+						config = configshub.ProxyAuthUsersConfig(f'http_proxy_server/users/{filename}')
+						config.update_config(new_info={"busy": False, "password": new_password, "timestamp_end_time": None})
 
 files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
 for filename in files:
