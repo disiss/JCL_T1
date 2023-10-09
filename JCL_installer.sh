@@ -74,10 +74,10 @@ echo "${GREEN}Requirements in installed!${NC}"
 npm install -g pm2
 
 cd http_proxy_server
+mkdir users
+
 pm2 start main.js
 
-cd
-cd api_server
 # pm2 start app.js
 
 cd
