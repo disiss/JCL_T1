@@ -5,6 +5,19 @@ import requests
 import subprocess
 import time
 import sys
+import psutil
+
+def get_network_interface():
+	host = requests.get("https://ipecho.net/plain", verify=False).text
+	print(host)
+
+	addrs = psutil.net_if_addrs()
+
+	for addr_name, addr in addrs.items():
+		for addr in addr:
+			if addr.address == host:
+				print("network_inerface is", addr_name)
+				return addr_name
 
 def generate_socks5(network_interface, host, ports=[1080, 1101, 1122, 1212]):
 	password = "Junction"
@@ -117,6 +130,10 @@ if __name__ == "__main__":
 	host = requests.get("https://ipinfo.io/ip").text
 
 	network_interface = sys.argv[1]
+
+	if network_interface == "automatic":
+		network_interface = get_network_interface()
+
 	generating = sys.argv[2]
 
 	if generating == "socks5":

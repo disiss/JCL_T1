@@ -102,7 +102,9 @@ mkdir http
 cd
 cd JCL_T1
 
-# echo "${GREEN}Start Generating Proxies!${NC}"
-# python3 generate_proxies.py
+echo "${GREEN}Start Generating Proxies!${NC}"
+python3 generate_proxies.py automatic socks5
+sleep 30
+python3 generate_proxies.py automatic http
 
 echo "${GREEN}JCL is succ installed!${NC}"

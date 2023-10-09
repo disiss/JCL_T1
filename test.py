@@ -1,6 +1,13 @@
-old_info = {"A": "AA", "B": "BB"}
-new_info = {"B": "CC"}
+import psutil
+import requests
 
-curr_info = old_info.update(new_info)
+host = requests.get("https://ipecho.net/plain", verify=False).text
+print(host)
 
-print(old_info)
+addrs = psutil.net_if_addrs()
+# print(addrs)
+
+for addr_name, addr in addrs.items():
+	for addr in addr:
+		if addr.address == host:
+			print("network_inerface is", addr_name)
