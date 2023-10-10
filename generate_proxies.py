@@ -23,7 +23,7 @@ def generate_socks5(network_interface, host, ports=[1080, 1101, 1122, 1212]):
 	password = "Junction"
 
 	def create_user(user, password):
-		os.system(f'adduser --gecos "" --disabled-login {user}')
+		os.system(f'sudo adduser {user} --gecos "" --shell /usr/sbin/nologin')
 		time.sleep(2)
 
 		PASSWD_CMD='/usr/bin/passwd'
