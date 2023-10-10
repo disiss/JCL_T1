@@ -23,13 +23,10 @@ def generate_socks5(network_interface, host, ports=[1080, 1101, 1122, 1212]):
 	password = "Junction"
 
 	def create_user(user, password):
-		os.system(f'sudo adduser {user} --gecos "" --shell /usr/sbin/nologin')
-		time.sleep(2)
-
-		PASSWD_CMD='/usr/bin/passwd'
-		cmd = [PASSWD_CMD, user]
+		cmd = ["adduser", user, "--gecos", '""', "--shell", "/usr/sbin/nologin"]
 
 		p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+		time.sleep(2)
 		p.stdin.write(f'{password}'.encode())
 		p.stdin.write('\n'.encode())
 
@@ -137,6 +134,13 @@ if __name__ == "__main__":
 	generating = sys.argv[2]
 
 	if generating == "socks5":
-		generate_socks5(network_interface=network_interface, host=host)
+		if len(os.listdir("proxies_config/socks5")) == 1:
+			generate_socks5(network_interface=network_interface, host=host)
+		else:
+			print("Socks5 прокси уже была сгенерированны!")
+
 	elif generating == "http":
-		generate_http()
+		if len(os.listdir("http_proxy_server/users")) == 0:
+			generate_http()
+		else:
+			print("Http прокси уже была сгенерированны!")
