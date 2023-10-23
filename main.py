@@ -101,7 +101,7 @@ def is_file(filename: str):
 	else:
 		return False
 
-async def test():
+async def background_worker():
 	while True:
 		await asyncio.sleep(60)
 		
@@ -139,6 +139,10 @@ async def test():
 						config = configshub.ProxyAuthUsersConfig(f'http_proxy_server/users/{filename}')
 						config.update_config(new_info={"busy": False, "password": new_password, "timestamp_end_time": None})
 
+		if utils.check_updates() == True:
+			print("получил новое обноавление!")
+			utils.install_update()
+
 files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
 for filename in files:
 	with open(f"proxies_config/socks5/{filename}") as config_file:
@@ -156,4 +160,4 @@ loop.create_task(avg_network_speed())
 loop.create_task(avg_ram_usage())
 
 loop.run_until_complete(server.run())
-loop.run_until_complete(test())
+loop.run_until_complete(background_worker())

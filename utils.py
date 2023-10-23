@@ -23,7 +23,7 @@ def install_update():
 	print("Now working directory: {0}".format(os.getcwd()))
 
 	os.chdir('/')
-	print("Now working directory:: {0}".format(os.getcwd()))
+	print("Now working directory: {0}".format(os.getcwd()))
 
 	print("creating updater.sh")
 	with open("JCL_updater.sh", "w+") as file:
