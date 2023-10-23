@@ -11,7 +11,7 @@ def check_updates():
 	latest_version = response.text
 
 	if currently_version != latest_version:
-		print("Нашел обновление...")
+		print("NEW UPDATE!")
 		return True
 	else:
 		return False

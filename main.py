@@ -103,7 +103,9 @@ def is_file(filename: str):
 
 async def background_worker():
 	while True:
-		await asyncio.sleep(60)
+		await asyncio.sleep(30)
+
+		print("background worker is work!")
 		
 		files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
 		for filename in files:
@@ -113,7 +115,7 @@ async def background_worker():
 				if result['timestamp_end_time'] != None:
 					dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
 					if datetime.now() >= dt_object:
-						print(f"прокси: socks5\\{result['login']} закончился, меняю пароль)")
+						print(f"proxy: socks5\\{result['login']} is end, changing password)")
 
 						new_password = f"Junction{random.randint(1, 100000)}"
 
@@ -131,7 +133,7 @@ async def background_worker():
 				if result['timestamp_end_time'] != None:
 					dt_object = datetime.fromtimestamp(result['timestamp_end_time'])
 					if datetime.now() >= dt_object:
-						print(f"прокси: http\\{result['login']} закончился, меняю пароль)")
+						print(f"proxy: http\\{result['login']} is end, changing password)")
 
 						proxy = proxyhub.HTTP(config_filename=f"http_proxy_server/users/{filename}")
 						proxy.change_password(password=f"Junction{random.randint(1, 100000)}")
@@ -140,7 +142,6 @@ async def background_worker():
 						config.update_config(new_info={"busy": False, "password": new_password, "timestamp_end_time": None})
 
 		if utils.check_updates() == True:
-			print("получил новое обноавление!")
 			utils.install_update()
 
 files = [f for f in os.listdir("proxies_config/socks5") if is_file(f)]
