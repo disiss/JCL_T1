@@ -5,7 +5,7 @@ import json
 import random
 
 import utils
-import ws_server
+import api
 import proxyhub
 import configshub
 
@@ -18,7 +18,7 @@ avg_cpu_usage_list = []
 avg_network_speed_list = []
 avg_ram_usage_list = []
 
-server = ws_server.BotWebServer(
+server = api.Api(
 	avg_cpu_usage=avg_cpu_usage_list,
 	avg_network_speed=avg_network_speed_list,
 	avg_ram_usage=avg_ram_usage_list
