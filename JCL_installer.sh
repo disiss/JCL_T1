@@ -25,10 +25,7 @@ EOF
 apt update
 apt upgrade
 
-# installing nodejs 17 version
-curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash
-
-apt install -y dante-server libpam-pwdfile openssl git python3-pip, nodejs sysstat net-tools
+apt install -y dante-server libpam-pwdfile openssl curl git python3-pip nodejs sysstat net-tools
 sudo apt update --fix-missing
 apt install -y npm
 
