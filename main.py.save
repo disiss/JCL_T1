@@ -3,7 +3,6 @@ import asyncio
 import os
 import json
 import random
-import threading
 
 import utils
 import api
@@ -155,12 +154,11 @@ for filename in files:
 	socks5 = proxyhub.Socks5(result['login'])
 	socks5.start_proxy()
 
-threading.Thread(target=server.run).start()
-
 loop = asyncio.get_event_loop()
 
 loop.create_task(avg_cpu_usage())
 loop.create_task(avg_network_speed())
 loop.create_task(avg_ram_usage())
 
+loop.create_t(server.run())
 loop.run_until_complete(background_worker())

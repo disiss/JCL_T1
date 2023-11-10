@@ -1,8 +1,9 @@
 import uvicorn
 import os
 import configshub
+import requests
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, APIRouter
 from fastapi.responses import JSONResponse
 from loguru import logger
 from json import loads, dumps
@@ -22,7 +23,16 @@ class Api:
 		self.avg_network_speed = avg_network_speed
 		self.avg_ram_usage = avg_ram_usage
 
-	@app.get("/api/get_avg_infos")
+		self.router = APIRouter()
+		self.router.add_api_route("/api/get_avg_infos", self.get_avg_infos, methods=["GET"])
+		self.router.add_api_route("/api/get_socks5_proxy_users", self.get_socks5_proxy_users, methods=["GET"])
+		self.router.add_api_route("/api/get_http_proxy_users", self.get_http_proxy_users, methods=["GET"])
+
+		self.router.add_api_route("/api/purchased", self.purchased, methods=["POST"])
+		self.router.add_api_route("/api/add_timestamp_end_time", self.get_http_proxy_users, methods=["POST"])
+
+		app.include_router(self.router)
+
 	async def get_avg_infos(self, request: Request):
 		api_token = request.headers.get("token")
 
@@ -30,8 +40,9 @@ class Api:
 			avg_cpu = self.avg_cpu_usage[0]
 			avg_ram = self.avg_ram_usage[0]
 			avg_network = self.avg_network_speed[0]
+
+			return JSONResponse(content={"avg_cpu": avg_cpu, "avg_ram": avg_ram, "avg_network": avg_network})
 	
-	@app.get("/api/get_socks5_proxy_users")
 	async def get_socks5_proxy_users(self, request: Request):
 		api_token = request.headers.get("token")
 
@@ -46,7 +57,6 @@ class Api:
 			print("socks5_proxy_users", proxy_users)
 			return JSONResponse(content=dumps(proxy_users))
 
-	@app.get("/api/get_http_proxy_users")
 	async def get_http_proxy_users(self, request: Request):
 		api_token = request.headers.get("token")
 
@@ -61,7 +71,6 @@ class Api:
 			print("http_proxy_users", proxy_users)
 			return JSONResponse(content=dumps(proxy_users))
 	
-	@app.post("/api/purchased")
 	async def purchased(request: Request):
 		api_token = request.headers.get("token")
 
@@ -86,7 +95,6 @@ class Api:
 			
 			return JSONResponse(content={"status": True})
 	
-	@app.post("/api/add_timestamp_end_time")
 	async def add_timestamp_end_time(request: Request):
 		api_token = request.headers.get("token")
 
@@ -125,5 +133,6 @@ class Api:
 			
 			return JSONResponse(content={"status": True})
 	
-	async def run(self, host="192.168.0.191", port=1124):
+	def run(self, host="127.0.0.1", port=1124):
+		host = requests.get("https://ipinfo.io/ip").text
 		uvicorn.run(app, host=host, port=port)
