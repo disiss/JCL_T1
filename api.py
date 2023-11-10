@@ -55,7 +55,7 @@ class Api:
 					proxy_users.append(proxy_user_info)
 					
 			print("socks5_proxy_users", proxy_users)
-			return JSONResponse(content=dumps(proxy_users))
+			return JSONResponse(content=proxy_users)
 
 	async def get_http_proxy_users(self, request: Request):
 		api_token = request.headers.get("token")
@@ -69,9 +69,9 @@ class Api:
 					proxy_users.append(proxy_user_info)
 					
 			print("http_proxy_users", proxy_users)
-			return JSONResponse(content=dumps(proxy_users))
+			return JSONResponse(content=proxy_users)
 	
-	async def purchased(request: Request):
+	async def purchased(self, request: Request):
 		api_token = request.headers.get("token")
 
 		if api_token == "python228P!!P":
