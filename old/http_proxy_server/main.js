@@ -22,8 +22,7 @@ function get_hostname() {
 	});
 }
 
-// const hostname = get_hostname()
-const hostname = "127.0.0.1"
+const hostname = get_hostname()
 const port = 1991
 
 function check_auth(login = String, password = String) {
@@ -99,7 +98,7 @@ server.on('connect', (req, clientSocket, head) => { // listen only for HTTP/1.1 
 
 	const {port, hostname} = url.parse(`//${req.url}`, false, true) // extract destination host and port from CONNECT request
 	if (hostname && port) {
-		console.log(`//${req.url}`)
+		console.log("GO")
 
 		const serverErrorHandler = (err) => {
 			console.error(err.message)

@@ -22,8 +22,7 @@ function get_hostname() {
 	});
 }
 
-// const hostname = get_hostname()
-const hostname = "127.0.0.1"
+const hostname = get_hostname()
 const port = 1991
 
 function check_auth(login = String, password = String) {
@@ -71,31 +70,31 @@ const listener = server.listen(port, hostname, (err) => {
 server.on('connect', (req, clientSocket, head) => { // listen only for HTTP/1.1 CONNECT method
 	// console.log(clientSocket.remoteAddress, clientSocket.remotePort, req.method, req.url)
 
-	if (!req.headers['proxy-authorization']) { // here you can add check for any username/password, I just check that this header must exist!
-		clientSocket.write([
-			'HTTP/1.1 407 Proxy Authentication Required',
-			'Proxy-Authenticate: Basic realm="proxy"',
-			'Proxy-Connection: close',
-		].join('\r\n'))
-		clientSocket.end('\r\n\r\n')    // empty body
-		return
-	} else {
-		auth_info = Buffer.from(req.headers['proxy-authorization'].split(' ')[1], 'base64').toString('utf-8').split(':')
-		login = auth_info[0]
-		password = auth_info[1]
+	// if (!req.headers['proxy-authorization']) { // here you can add check for any username/password, I just check that this header must exist!
+	// 	clientSocket.write([
+	// 		'HTTP/1.1 407 Proxy Authentication Required',
+	// 		'Proxy-Authenticate: Basic realm="proxy"',
+	// 		'Proxy-Connection: close',
+	// 	].join('\r\n'))
+	// 	clientSocket.end('\r\n\r\n')    // empty body
+	// 	return
+	// } else {
+	// 	// auth_info = Buffer.from(req.headers['proxy-authorization'].split(' ')[1], 'base64').toString('utf-8').split(':')
+	// 	// login = auth_info[0]
+	// 	// password = auth_info[1]
 
-		console.log("test", check_auth(login=login, password=password))
+	// 	// console.log("test", check_auth(login=login, password=password))
 
-		if (check_auth(login=login, password=password) === false) {
-			clientSocket.write([
-				'HTTP/1.1 407 Proxy Authentication Required',
-				'Proxy-Authenticate: Basic realm="proxy"',
-				'Proxy-Connection: close',
-			].join('\r\n'))
-			clientSocket.end('\r\n\r\n')    // empty body
-			return
-		}
-	}
+	// 	if (check_auth(login=login, password=password) === false) {
+	// 		clientSocket.write([
+	// 			'HTTP/1.1 407 Proxy Authentication Required',
+	// 			'Proxy-Authenticate: Basic realm="proxy"',
+	// 			'Proxy-Connection: close',
+	// 		].join('\r\n'))
+	// 		clientSocket.end('\r\n\r\n')    // empty body
+	// 		return
+	// 	}
+	// }
 
 	const {port, hostname} = url.parse(`//${req.url}`, false, true) // extract destination host and port from CONNECT request
 	if (hostname && port) {
